@@ -79,6 +79,8 @@ button:disabled{opacity:.55;cursor:default;transform:none}
 (function(){
   var $=function(i){return document.getElementById(i)};
   var startEl=$('start'),wishEl=$('wish'),uiEl=$('ui'),hintEl=$('hint'),toEl=$('to'),titleEl=$('title'),toast=$('toast'),banner=$('banner');
+  // Your live page address (GitHub Pages). Share links are always built from this.
+  var HOSTED_URL='https://taiyoyozakura.github.io/Just-Html/Happy%20Diwali.html';
   var currentName='',mode='start';
 
   // ---- name <-> plain hash (hex of UTF-8, so any name works in a #hash) ----
@@ -109,9 +111,7 @@ button:disabled{opacity:.55;cursor:default;transform:none}
   $('form').addEventListener('submit',function(e){e.preventDefault();var v=$('name').value.trim();if(v)showWish(v,true)});
   $('again').addEventListener('click',showStart);
   $('share').addEventListener('click',function(){
-    // Share link = this page's own address on your hosted domain (works on any host)
-    if(location.protocol.indexOf('http')!==0){say('Upload this page to your hosting first, then share links will work');return}
-    var link=location.origin+location.pathname+'#'+enc(currentName);
+    var link=HOSTED_URL+'#'+enc(currentName);
     function fallback(){var t=document.createElement('textarea');t.value=link;document.body.appendChild(t);t.select();
       try{document.execCommand('copy');say('Link copied')}catch(e){say(link)}document.body.removeChild(t)}
     if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(link).then(function(){say('Link copied')},fallback);else fallback();
