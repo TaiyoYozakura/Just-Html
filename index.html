@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>My Wishes</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Yatra+One&family=Mukta:wght@400;600&display=swap">
+<style>
+:root{--bg:#fff8ec;--ink:#2b1538;--muted:#6f5a7a;--card:#ffffff;--line:#ecd9b8;--accent:#e0561c;--accent2:#c2185b;
+padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);box-sizing:border-box}
+@media (prefers-color-scheme:dark){:root{--bg:#150a26;--ink:#fff3d6;--muted:#b8a6c8;--card:#22103b;--line:#3b2160;--accent:#ffb627;--accent2:#ff4d8d}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Mukta',system-ui,sans-serif;line-height:1.5}
+.wrap{max-width:900px;margin:0 auto;padding:48px 20px 64px}
+h1{font-family:'Yatra One',Georgia,serif;font-weight:400;font-size:clamp(2.2rem,7vw,3.6rem);margin:0 0 6px;color:var(--accent)}
+.sub{margin:0 0 28px;color:var(--muted)}
+#q{width:100%;max-width:360px;font:inherit;padding:.65rem 1.1rem;border-radius:999px;border:1.5px solid var(--line);background:var(--card);color:var(--ink);margin-bottom:24px}
+#q:focus-visible,a.card:focus-visible{outline:3px solid var(--accent2);outline-offset:2px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px}
+a.card{display:flex;gap:14px;align-items:center;padding:16px 18px;background:var(--card);border:1.5px solid var(--line);border-radius:16px;color:inherit;text-decoration:none;transition:transform .2s,border-color .2s}
+a.card:hover{transform:translateY(-3px);border-color:var(--accent)}
+.emoji{font-size:2rem;line-height:1}
+.t{font-weight:600;font-size:1.1rem}
+.n{color:var(--muted);font-size:.9rem}
+.empty{color:var(--muted);display:none}
+@media (prefers-reduced-motion:reduce){a.card{transition:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>My Wishes</h1>
+  <p class="sub">Pick a wish to open it.</p>
+  <input id="q" type="search" placeholder="Search wishes" aria-label="Search wishes" autocomplete="off">
+  <div class="grid" id="list"></div>
+  <p class="empty" id="empty">No wishes match your search.</p>
+</div>
+<script>
+// To add a new wish: put its .html file in this same folder and add one line below.
+var WISHES=[
+  {title:'Happy Diwali', file:'Happy Diwali.html', emoji:'🪔', note:'Fireworks and a diya for friends'}
+  // {title:'Happy Birthday', file:'Happy Birthday.html', emoji:'🎂', note:'Birthday wish'},
+];
+
+var list=document.getElementById('list'),empty=document.getElementById('empty'),q=document.getElementById('q');
+function render(){
+  var term=q.value.trim().toLowerCase(),n=0;
+  list.innerHTML='';
+  WISHES.forEach(function(w){
+    if(term&&(w.title+' '+(w.note||'')).toLowerCase().indexOf(term)<0)return;
+    n++;
+    var a=document.createElement('a');a.className='card';a.href=encodeURI(w.file);
+    var e=document.createElement('span');e.className='emoji';e.textContent=w.emoji||'🎉';e.setAttribute('aria-hidden','true');
+    var box=document.createElement('span');
+    var t=document.createElement('div');t.className='t';t.textContent=w.title;
+    var d=document.createElement('div');d.className='n';d.textContent=w.note||'';
+    box.appendChild(t);box.appendChild(d);a.appendChild(e);a.appendChild(box);list.appendChild(a);
+  });
+  empty.style.display=n?'none':'block';
+}
+q.addEventListener('input',render);
+render();
+</script>
+</body>
+</html>
