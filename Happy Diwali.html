@@ -77,7 +77,6 @@ button:disabled{opacity:.55;cursor:default;transform:none}
 </div>
 <script>
 (function(){
-  var BASE='https://claude.ai/artifact/FTjATffbRmcKio4fjunEe9';
   var $=function(i){return document.getElementById(i)};
   var startEl=$('start'),wishEl=$('wish'),uiEl=$('ui'),hintEl=$('hint'),toEl=$('to'),titleEl=$('title'),toast=$('toast'),banner=$('banner');
   var currentName='',mode='start';
@@ -110,7 +109,9 @@ button:disabled{opacity:.55;cursor:default;transform:none}
   $('form').addEventListener('submit',function(e){e.preventDefault();var v=$('name').value.trim();if(v)showWish(v,true)});
   $('again').addEventListener('click',showStart);
   $('share').addEventListener('click',function(){
-    var link=BASE+'#'+enc(currentName);
+    // Share link = this page's own address on your hosted domain (works on any host)
+    if(location.protocol.indexOf('http')!==0){say('Upload this page to your hosting first, then share links will work');return}
+    var link=location.origin+location.pathname+'#'+enc(currentName);
     function fallback(){var t=document.createElement('textarea');t.value=link;document.body.appendChild(t);t.select();
       try{document.execCommand('copy');say('Link copied')}catch(e){say(link)}document.body.removeChild(t)}
     if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(link).then(function(){say('Link copied')},fallback);else fallback();
