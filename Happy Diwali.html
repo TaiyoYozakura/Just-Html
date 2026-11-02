@@ -79,8 +79,13 @@ button:disabled{opacity:.55;cursor:default;transform:none}
 (function(){
   var $=function(i){return document.getElementById(i)};
   var startEl=$('start'),wishEl=$('wish'),uiEl=$('ui'),hintEl=$('hint'),toEl=$('to'),titleEl=$('title'),toast=$('toast'),banner=$('banner');
-  // Your live page address (GitHub Pages). Share links are always built from this.
-  var HOSTED_URL='https://taiyoyozakura.github.io/Just-Html/Happy%20Diwali.html';
+  // Your hosted site. Share links look like HOSTED_ROOT + friend's name (e.g. .../Just-Html/Rahul)
+  var HOSTED_ROOT='https://taiyoyozakura.github.io/Just-Html/';
+  var ROOT_PATH='/Just-Html/';
+  // Reads the friend's name from the address path when this page is served as 404.html
+  function pathName(){var p=location.pathname;if(p.indexOf(ROOT_PATH)!==0)return '';
+    var r=p.slice(ROOT_PATH.length).replace(/\/+$/,'');if(!r||r.indexOf('/')>=0||r.indexOf('.')>=0)return '';
+    try{return decodeURIComponent(r).trim().slice(0,24)}catch(e){return ''}}
   var currentName='',mode='start';
 
   // ---- name <-> plain hash (hex of UTF-8, so any name works in a #hash) ----
@@ -106,12 +111,12 @@ button:disabled{opacity:.55;cursor:default;transform:none}
     mode='start';startEl.classList.remove('hide');void startEl.offsetWidth;startEl.classList.remove('off');
     wishEl.classList.add('hide');uiEl.classList.add('hide');hintEl.classList.add('hide');$('name').value='';$('name').focus();
   }
-  function route(){var n=dec(location.hash.slice(1));if(n)showWish(n,false);else if(mode==='wish'&&!currentName)showStart()}
+  function route(){var n=pathName()||dec(location.hash.slice(1));if(n)showWish(n,false);else if(mode==='wish'&&!currentName)showStart()}
 
   $('form').addEventListener('submit',function(e){e.preventDefault();var v=$('name').value.trim();if(v)showWish(v,true)});
   $('again').addEventListener('click',showStart);
   $('share').addEventListener('click',function(){
-    var link=HOSTED_URL+'#'+enc(currentName);
+    var link=HOSTED_ROOT+encodeURIComponent(currentName);
     function fallback(){var t=document.createElement('textarea');t.value=link;document.body.appendChild(t);t.select();
       try{document.execCommand('copy');say('Link copied')}catch(e){say(link)}document.body.removeChild(t)}
     if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(link).then(function(){say('Link copied')},fallback);else fallback();
