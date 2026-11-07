@@ -6,14 +6,13 @@
 <title>Happy Diwali</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Yatra+One&family=Mukta:wght@400;600&display=swap">
 <style>
-:root{--night:#12082b;--plum:#2a0f4a;--marigold:#ffb627;--flame:#ff7a1a;--rose:#ff4d8d;--cream:#fff3d6;
-box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-html,body{height:100%;margin:0}
+:root{--night:#12082b;--plum:#2a0f4a;--marigold:#ffb627;--flame:#ff7a1a;--rose:#ff4d8d;--cream:#fff3d6}
+html,body{height:100%;margin:0;touch-action:manipulation}
 body{background:radial-gradient(ellipse at 50% 110%,var(--plum),var(--night) 65%);color:var(--cream);
-font-family:'Mukta',system-ui,sans-serif;overflow:hidden;-webkit-tap-highlight-color:transparent}
+font-family:'Mukta',system-ui,sans-serif;overflow:hidden;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none}
 canvas{position:fixed;inset:0;width:100%;height:100%;display:block}
-main{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem;
-text-align:center;padding:76px 20px 72px;pointer-events:none}
+main{position:relative;z-index:2;height:100%;box-sizing:border-box;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem;
+text-align:center;padding:calc(56px + env(safe-area-inset-top,0px)) 20px calc(84px + env(safe-area-inset-bottom,0px));pointer-events:none}
 h1{font-family:'Yatra One',Georgia,serif;font-weight:400;font-size:clamp(2.4rem,9vw,5rem);line-height:1;margin:0;
 color:var(--marigold);text-shadow:0 0 30px rgba(255,150,30,.55),0 0 80px rgba(255,77,141,.35);letter-spacing:.02em}
 h1 span{display:inline-block;opacity:0;transform:translateY(40px) scale(.6);filter:blur(10px);
@@ -29,13 +28,14 @@ background:radial-gradient(ellipse at 50% 75%,#fff7c2 8%,var(--marigold) 45%,var
 transform-origin:50% 100%;animation:flick 1.3s ease-in-out infinite alternate;filter:blur(.4px);box-shadow:0 0 28px 10px rgba(255,160,40,.7)}
 @keyframes flick{0%{transform:scale(1,1) rotate(-3deg)}35%{transform:scale(.92,1.08) rotate(2deg)}70%{transform:scale(1.06,.96) rotate(-2deg)}100%{transform:scale(.95,1.05) rotate(3deg)}}
 .ui{position:fixed;z-index:3;right:max(14px,env(safe-area-inset-right,0px));bottom:max(14px,env(safe-area-inset-bottom,0px));display:flex;gap:10px;justify-content:flex-end}
-input,button{font:inherit;font-size:1rem;border-radius:999px;border:1.5px solid rgba(255,182,39,.6);padding:.7rem 1.2rem;color:var(--cream);background:rgba(18,8,43,.65);backdrop-filter:blur(6px)}
-input{width:min(240px,60vw);outline:none;text-align:center}
+input,button{font:inherit;font-size:1rem;border-radius:999px;border:1.5px solid rgba(255,182,39,.6);padding:.7rem 1.2rem;color:var(--cream);background:rgba(18,8,43,.65);backdrop-filter:blur(6px);touch-action:manipulation}
+input{width:min(240px,60vw);outline:none;text-align:center;-webkit-user-select:text;user-select:text;font-size:16px}
 input::placeholder{color:rgba(255,243,214,.5)}
 input:focus-visible,button:focus-visible{outline:3px solid var(--rose);outline-offset:2px}
 button{cursor:pointer;background:linear-gradient(135deg,var(--flame),var(--rose));border-color:transparent;font-weight:600;transition:transform .15s}
-button:hover{transform:scale(1.05)}button:active{transform:scale(.96)}
-.hint{position:fixed;z-index:3;top:max(12px,env(safe-area-inset-top,0px));left:max(12px,env(safe-area-inset-left,0px));display:flex;flex-direction:column;align-items:flex-start;gap:6px;font-size:.85rem;pointer-events:none}
+button:active{transform:scale(.96)}
+@media (hover:hover){button:hover{transform:scale(1.05)}}
+.hint{position:fixed;z-index:3;bottom:max(14px,env(safe-area-inset-bottom,0px));left:max(12px,env(safe-area-inset-left,0px));display:flex;flex-direction:column;align-items:flex-start;gap:6px;font-size:.85rem;pointer-events:none}
 .hint span{opacity:.6;padding-left:6px}
 .hint button{pointer-events:auto;display:inline-flex;align-items:center;gap:.5rem;padding:.5rem 1rem;font-size:.95rem}
 .hint button svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
@@ -49,11 +49,11 @@ button:hover{transform:scale(1.05)}button:active{transform:scale(.96)}
 .head{position:relative;width:100%}
 #banner{position:absolute;left:0;right:0;bottom:100%;margin-bottom:.45rem;text-align:center;font-family:'Yatra One',Georgia,serif;font-size:clamp(1.3rem,5.5vw,2.4rem);line-height:1.2;color:var(--cream);text-shadow:0 0 24px var(--flame),0 0 50px var(--rose);opacity:0;transform:scale(.85);transform-origin:50% 100%;transition:opacity 1s,transform 1.4s cubic-bezier(.2,.9,.25,1);pointer-events:none}
 #banner.on{opacity:1;transform:scale(1)}
-#toast{position:fixed;z-index:6;left:50%;top:max(48px,env(safe-area-inset-top,0px));transform:translateX(-50%);background:var(--cream);color:var(--night);padding:.5rem 1.1rem;border-radius:999px;font-weight:600;opacity:0;transition:opacity .3s;pointer-events:none;max-width:90vw}
+#toast{position:fixed;z-index:6;left:50%;top:max(48px,calc(env(safe-area-inset-top,0px) + 16px));transform:translateX(-50%);background:var(--cream);color:var(--night);padding:.5rem 1.1rem;border-radius:999px;font-weight:600;opacity:0;transition:opacity .3s;pointer-events:none;max-width:90vw}
 #toast.on{opacity:1}
 button.alt{background:rgba(18,8,43,.65);border:1.5px solid rgba(255,182,39,.6)}
 button:disabled{opacity:.55;cursor:default;transform:none}
-.rangoli{position:fixed;z-index:1;left:50%;top:46%;width:min(86vw,44vh,520px);aspect-ratio:1;transform:translate(-50%,-50%);pointer-events:none;opacity:1;transition:filter 1s,opacity .9s}
+.rangoli{position:fixed;z-index:1;left:50%;top:46%;width:min(86vw,44vh,520px);width:min(86vw,44dvh,520px);aspect-ratio:1;transform:translate(-50%,-50%);pointer-events:none;opacity:1;transition:filter 1s,opacity .9s}
 .rangoli svg{width:100%;height:100%;overflow:visible;animation:rIn 2.2s cubic-bezier(.2,.8,.2,1) both}
 @keyframes rIn{from{opacity:0;transform:scale(.88) rotate(-12deg)}to{opacity:1;transform:none}}
 .rangoli path,.rangoli .ring{fill:var(--f,none);fill-opacity:0;stroke:var(--s);stroke-width:2.2;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;animation-name:draw,fillin;animation-duration:1.9s,1.5s;animation-delay:var(--d),calc(var(--d) + .9s);animation-fill-mode:forwards,forwards;animation-timing-function:ease-in-out,ease}
@@ -64,20 +64,30 @@ button:disabled{opacity:.55;cursor:default;transform:none}
 .rangoli .lamp{fill:#ffa21a;opacity:0;transform-box:fill-box;transform-origin:center;animation:lampon .6s ease forwards var(--d),flick 1.1s ease-in-out infinite alternate calc(var(--d) + .6s);filter:drop-shadow(0 0 6px #ffb627)}
 @keyframes lampon{to{opacity:1}}
 @keyframes flick{from{transform:scale(.85)}to{transform:scale(1.2)}}
-body.fin .rangoli{filter:drop-shadow(0 0 16px rgba(255,170,60,.8)) brightness(1.25)}
+body.fin .rangoli{filter:brightness(1.25)}
+@media (hover:hover) and (pointer:fine){body.fin .rangoli{filter:drop-shadow(0 0 16px rgba(255,170,60,.8)) brightness(1.25)}}
 .to,.msg{text-shadow:0 2px 14px rgba(18,8,43,.95),0 0 4px rgba(18,8,43,.9)}
 h1{text-shadow:0 0 30px rgba(255,150,30,.55),0 2px 4px rgba(18,8,43,.95),0 4px 22px rgba(18,8,43,.95)}
 @media (prefers-reduced-motion:reduce){.rangoli *{animation-duration:.01s!important;animation-delay:0s!important}}
 #c2{position:fixed;inset:0;width:100%;height:100%;z-index:1;pointer-events:none}
-.stage{position:relative;width:min(86vw,44vh,520px);aspect-ratio:1;flex:none;margin:.3rem 0}
+.stage{position:relative;width:min(86vw,44vh,520px);width:min(86vw,44dvh,520px);aspect-ratio:1;flex:none;margin:.3rem 0}
 .stage .diya{position:absolute;left:50%;top:50%;margin:0;transform:translate(-50%,-50%) scale(.8)}
 .ui button{width:46px;height:46px;padding:0;display:grid;place-items:center;position:relative}
 .ui button svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+@media (hover:hover) and (pointer:fine){
 .ui button::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 10px);right:0;white-space:nowrap;background:var(--cream);color:var(--night);font-size:.8rem;font-weight:600;padding:.3rem .75rem;border-radius:999px;opacity:0;transform:translateY(4px);pointer-events:none;transition:opacity .15s,transform .15s}
-.ui button:hover::after,.ui button:focus-visible::after{opacity:1;transform:none}
+.ui button:hover::after,.ui button:focus-visible::after{opacity:1;transform:none}}
 h1,.to,.msg{transition:opacity .9s}
 body.fin h1,body.fin .to,body.fin .msg{opacity:.05}
 .rangoli.dim{opacity:.35}
+/* short screens / landscape phones */
+@media (max-height:640px){
+main{padding-top:calc(40px + env(safe-area-inset-top,0px));padding-bottom:calc(70px + env(safe-area-inset-bottom,0px));gap:.25rem}
+h1{font-size:clamp(2rem,min(9vw,11dvh),4rem)}
+.to{margin:.4rem 0 .2rem;font-size:clamp(1.1rem,min(4.5vw,5dvh),1.8rem)}
+.stage{width:min(60vw,32vh,520px);width:min(60vw,32dvh,520px)}
+.rangoli{width:min(60vw,32vh,520px);width:min(60vw,32dvh,520px)}}
+@media (max-height:480px){.msg{display:none}.stage{width:min(50vw,34dvh)}.rangoli{width:min(50vw,34dvh)}}
 </style>
 </head>
 <body>
@@ -101,7 +111,7 @@ body.fin h1,body.fin .to,body.fin .msg{opacity:.05}
   <p class="msg">May your days glow with light, laughter and sweets, and may every corner of your year be bright.</p>
 </main>
 <div class="ui hide" id="ui">
-  <button id="share" type="button" class="alt" data-tip="Copy share link" aria-label="Copy share link"><svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 10.6l6.8-4.2M8.6 13.4l6.8 4.2"/></svg></button>
+  <button id="share" type="button" class="alt" data-tip="Share" aria-label="Share"><svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 10.6l6.8-4.2M8.6 13.4l6.8 4.2"/></svg></button>
   <button id="again" type="button" class="alt" data-tip="New wish" aria-label="New wish"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
 </div>
 <script>
@@ -116,6 +126,8 @@ body.fin h1,body.fin .to,body.fin .msg{opacity:.05}
     var r=p.slice(ROOT_PATH.length).replace(/\/+$/,'');if(!r||r.indexOf('/')>=0||r.indexOf('.')>=0)return '';
     try{return decodeURIComponent(r).trim().slice(0,24)}catch(e){return ''}}
   var currentName='',mode='start';
+  // phones / touch devices get a lighter particle and canvas load
+  var small=matchMedia('(max-width:768px), (pointer:coarse)').matches;
 
   // ---- name <-> plain hash (hex of UTF-8, so any name works in a #hash) ----
   function enc(n){var b=new TextEncoder().encode(n),o='w-';b.forEach(function(x){o+=('0'+x.toString(16)).slice(-2)});return o}
@@ -147,9 +159,15 @@ body.fin h1,body.fin .to,body.fin .msg{opacity:.05}
   $('again').addEventListener('click',showStart);
   $('share').addEventListener('click',function(){
     var link=HOSTED_ROOT+encodeURIComponent(currentName);
-    function fallback(){var t=document.createElement('textarea');t.value=link;document.body.appendChild(t);t.select();
-      try{document.execCommand('copy');say('Link copied')}catch(e){say(link)}document.body.removeChild(t)}
-    if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(link).then(function(){say('Link copied')},fallback);else fallback();
+    function copy(){
+      function fallback(){var t=document.createElement('textarea');t.value=link;document.body.appendChild(t);t.select();
+        try{document.execCommand('copy');say('Link copied')}catch(e){say(link)}document.body.removeChild(t)}
+      if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(link).then(function(){say('Link copied')},fallback);else fallback();
+    }
+    // native share sheet (WhatsApp etc.) on phones, clipboard elsewhere
+    if(navigator.share){
+      navigator.share({title:'Happy Diwali',text:'A Diwali wish for '+currentName,url:link}).catch(function(err){if(!err||err.name!=='AbortError')copy()});
+    }else copy();
   });
   addEventListener('hashchange',route);
 
@@ -190,15 +208,16 @@ body.fin h1,body.fin .to,body.fin .msg{opacity:.05}
   // ---- canvas: Indian firecrackers ----
   var cv=$('c'),ctx=cv.getContext('2d'),cv2=$('c2'),x2=cv2.getContext('2d'),W,H,DPR,GY;
   var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
-  function size(){DPR=Math.min(devicePixelRatio||1,2);W=innerWidth;H=innerHeight;cv.width=W*DPR;cv.height=H*DPR;cv2.width=W*DPR;cv2.height=H*DPR;ctx.setTransform(DPR,0,0,DPR,0,0);GY=H-96}
+  function size(){DPR=Math.min(devicePixelRatio||1,small?1.5:2);W=innerWidth;H=innerHeight;cv.width=W*DPR;cv.height=H*DPR;cv2.width=W*DPR;cv2.height=H*DPR;ctx.setTransform(DPR,0,0,DPR,0,0);GY=H-96}
   size();addEventListener('resize',size);
   var palette=[[255,182,39],[255,122,26],[255,77,141],[255,243,214],[160,120,255],[80,220,200]];
   var GOLD=[255,200,80],WHITE=[255,243,214],ORANGE=[255,140,40],RED=[225,40,50];
   var rockets=[],sparks=[],devs=[],glows=[],embers=[],stars=[];
-  var cap=reduce?500:3400,flash=0,shake=0,finaleOn=false,rate=reduce?.3:1;
-  for(var i0=0;i0<90;i0++)stars.push({x:Math.random(),y:Math.random()*.7,r:Math.random()*1.4+.3,p:Math.random()*6.28,s:.5+Math.random()*1.5});
+  var CAP=reduce?500:(small?1700:3400),CAPF=reduce?600:(small?2100:4200);
+  var cap=CAP,flash=0,shake=0,finaleOn=false,rate=reduce?.3:1;
+  for(var i0=0;i0<(small?55:90);i0++)stars.push({x:Math.random(),y:Math.random()*.7,r:Math.random()*1.4+.3,p:Math.random()*6.28,s:.5+Math.random()*1.5});
   function mkEmber(init){return{x:Math.random()*W,y:init?Math.random()*H:H+10,r:Math.random()*2.2+.6,v:20+Math.random()*40,w:Math.random()*6.28,a:.2+Math.random()*.4}}
-  for(var j0=0;j0<50;j0++)embers.push(mkEmber(true));
+  for(var j0=0;j0<(small?26:50);j0++)embers.push(mkEmber(true));
   var pick=function(a){return a[Math.random()*a.length|0]};
   var TYPES=['sphere','ring','flower','heart','willow','crossette','spiral'];
 
@@ -210,7 +229,7 @@ body.fin h1,body.fin .to,body.fin .msg{opacity:.05}
     rockets.push({x:x==null?W*(.12+Math.random()*.76):x,y:GY,vx:opt.vx!=null?opt.vx:(Math.random()-.5)*60,vy:-(600+Math.random()*260),
       ty:H*(opt.ty||(.14+Math.random()*.32)),c:pick(palette),type:type||pick(TYPES)})}
   function burst(x,y,c,type,big){
-    var n=reduce?30:(big?320:150+Math.random()*80|0),c2=pick(palette),i,a,sp;
+    var n=reduce?30:(big?(small?220:320):(150+Math.random()*80|0)*(small?.75:1)|0),c2=pick(palette),i,a,sp;
     if(type==='heart'){n=reduce?30:110;
       for(i=0;i<n;i++){a=Math.PI*2*i/n;var hx=16*Math.pow(Math.sin(a),3),hy=-(13*Math.cos(a)-5*Math.cos(2*a)-2*Math.cos(3*a)-Math.cos(4*a));add(x,y,hx*17,hy*17,[255,77,141],.9,{g:.25,dr:1.9})}return}
     if(type==='willow'){for(i=0;i<n;i++){a=Math.PI*2*i/n;sp=80+Math.random()*230;add(x,y,Math.cos(a)*sp,Math.sin(a)*sp,GOLD,1.9+Math.random()*.8,{g:.9,dr:1.2})}return}
@@ -219,7 +238,7 @@ body.fin h1,body.fin .to,body.fin .msg{opacity:.05}
     for(i=0;i<n;i++){a=Math.PI*2*i/n;
       if(type==='ring')sp=(i%2?280:170);else if(type==='flower')sp=60+(Math.sin(a*6)+1)*120;else sp=120+Math.random()*(big?380:260);
       add(x,y,Math.cos(a)*sp,Math.sin(a)*sp,(i%2&&type==='flower')?c2:c,.5+Math.random()*.5)}
-    for(var k=0;k<40;k++){var b=Math.random()*6.28,s=Math.random()*180;add(x,y,Math.cos(b)*s,Math.sin(b)*s,WHITE,.9+Math.random()*.6,{tw:1})}
+    for(var k=0;k<(small?24:40);k++){var b=Math.random()*6.28,s=Math.random()*180;add(x,y,Math.cos(b)*s,Math.sin(b)*s,WHITE,.9+Math.random()*.6,{tw:1})}
   }
 
   // ground crackers
@@ -231,7 +250,7 @@ body.fin h1,body.fin .to,body.fin .msg{opacity:.05}
     for(var i=0;i<9;i++){var a=Math.random()*6.28,s=60+Math.random()*200;add(x,GY-6,Math.cos(a)*s,Math.sin(a)*s-80,i%2?ORANGE:WHITE,.3+Math.random()*.25,{g:1,dr:2})}
     for(i=0;i<5;i++)add(x,GY-6,(Math.random()-.5)*240,-80-Math.random()*220,RED,.9,{g:1.6,dr:.6,sz:2.6})}
   function bomb(x){glows.push({x:x,y:GY-6,t:0,d:.7,r:300,ring:1});glows.push({x:x,y:GY-6,t:0,d:.45,r:150,ring:1});shake=.35;
-    for(var i=0;i<(reduce?20:80);i++){var a=Math.random()*6.28,s=100+Math.random()*420;add(x,GY-6,Math.cos(a)*s,Math.sin(a)*s-120,i%3?ORANGE:WHITE,.5+Math.random()*.5,{g:1.1})}
+    for(var i=0;i<(reduce?20:(small?55:80));i++){var a=Math.random()*6.28,s=100+Math.random()*420;add(x,GY-6,Math.cos(a)*s,Math.sin(a)*s-120,i%3?ORANGE:WHITE,.5+Math.random()*.5,{g:1.1})}
     for(i=0;i<14;i++)add(x,GY-6,(Math.random()-.5)*500,-120-Math.random()*380,RED,1.1,{g:1.6,dr:.5,sz:2.8})}
 
   addEventListener('pointerdown',function(e){
@@ -255,7 +274,7 @@ body.fin h1,body.fin .to,body.fin .msg{opacity:.05}
 
   // ---- grand finale: a full Diwali night of crackers ----
   function runFinale(){
-    if(finaleOn)return;finaleOn=true;var btn=$('finale');btn.disabled=true;cap=reduce?600:4200;queue.length=0;
+    if(finaleOn)return;finaleOn=true;var btn=$('finale');btn.disabled=true;cap=CAPF;queue.length=0;
     var Q=function(f){queue.push(f)};
     Q(function(){document.body.classList.add('fin');itSparkler(6,3.8)});
     Q(function(){itAnar(3,3.4)});
@@ -266,7 +285,7 @@ body.fin h1,body.fin .to,body.fin .msg{opacity:.05}
     Q(function(){itBombs()});
     Q(function(){flash=1;burst(W*.5,H*.3,[255,200,80],'sphere',true);burst(W*.5,H*.3,[255,77,141],'ring');banner.classList.add('on');
       itRocket(10,['sphere','flower','ring','heart','spiral']);later(4200,function(){banner.classList.remove('on')})});
-    Q(function(){document.body.classList.remove('fin');finaleOn=false;cap=reduce?500:3400;btn.disabled=false});
+    Q(function(){document.body.classList.remove('fin');finaleOn=false;cap=CAP;btn.disabled=false});
   }
   $('finale').addEventListener('click',runFinale);
 
