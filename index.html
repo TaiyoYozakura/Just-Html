@@ -23,18 +23,46 @@ a.card:hover{transform:translateY(-3px);border-color:var(--accent)}
 .t{font-weight:600;font-size:1.1rem}
 .n{color:var(--muted);font-size:.9rem}
 .empty{color:var(--muted);display:none}
+#auth{max-width:420px;margin:12vh auto 0;padding:24px;background:var(--card);border:1.5px solid var(--line);border-radius:16px}
+#auth h1{font-size:2rem}
+#password{width:100%;font:inherit;padding:.65rem .8rem;border:1.5px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink)}
+#password:focus-visible,#unlock:focus-visible{outline:3px solid var(--accent2);outline-offset:2px}
+#unlock{margin-top:12px;padding:.6rem 1rem;border:0;border-radius:8px;background:var(--accent);color:white;font:inherit;font-weight:600;cursor:pointer}
+#unauthorized{color:var(--accent2);font-weight:600}
 @media (prefers-reduced-motion:reduce){a.card{transition:none}}
 </style>
 </head>
 <body>
-<div class="wrap">
+<form class="wrap" id="auth">
+  <h1>Private page</h1>
+  <p class="sub">Enter the master password to continue.</p>
+  <label for="password">Master password</label>
+  <input id="password" type="password" autocomplete="current-password" required>
+  <button id="unlock" type="submit">Continue</button>
+  <p id="unauthorized" role="alert" hidden>Not authorized.</p>
+</form>
+<main class="wrap" id="content" hidden>
   <h1>My Wishes</h1>
   <p class="sub">Pick a wish to open it.</p>
   <input id="q" type="search" placeholder="Search wishes" aria-label="Search wishes" autocomplete="off">
   <div class="grid" id="list"></div>
   <p class="empty" id="empty">No wishes match your search.</p>
-</div>
+</main>
 <script>
+var MASTER_PASSWORD='shravanisbest0912345';
+var auth=document.getElementById('auth'),password=document.getElementById('password');
+auth.addEventListener('submit',function(event){
+  event.preventDefault();
+  if(password.value===MASTER_PASSWORD){
+    auth.hidden=true;
+    document.getElementById('content').hidden=false;
+  }else{
+    document.getElementById('unauthorized').hidden=false;
+    password.value='';
+    password.focus();
+  }
+});
+
 // To add a new wish: put its .html file in this same folder and add one line below.
 var WISHES=[
   {title:'Happy Diwali', file:'Happy Diwali.html', emoji:'🪔', note:'Fireworks and a diya for friends'}
