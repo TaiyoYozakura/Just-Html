@@ -51,7 +51,7 @@ a.card:hover{transform:translateY(-3px);border-color:var(--accent)}
 <script>
 var auth=document.getElementById('auth'),password=document.getElementById('password');
 async function passwordMatches(input){
-  var response=await fetch('.env',{cache:'no-store'});
+  var response=await fetch('password.env',{cache:'no-store'});
   if(!response.ok)throw new Error('Password configuration unavailable');
   var settings={};
   (await response.text()).split(/\r?\n/).forEach(function(line){
