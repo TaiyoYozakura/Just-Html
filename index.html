@@ -49,11 +49,29 @@ a.card:hover{transform:translateY(-3px);border-color:var(--accent)}
   <p class="empty" id="empty">No wishes match your search.</p>
 </main>
 <script>
-var MASTER_PASSWORD='shravanisbest0912345';
 var auth=document.getElementById('auth'),password=document.getElementById('password');
-auth.addEventListener('submit',function(event){
+async function passwordMatches(input){
+  var response=await fetch('.env',{cache:'no-store'});
+  if(!response.ok)throw new Error('Password configuration unavailable');
+  var settings={};
+  (await response.text()).split(/\r?\n/).forEach(function(line){
+    var match=line.match(/^([A-Z_]+)=(.*)$/);
+    if(match)settings[match[1]]=match[2];
+  });
+  var saltHex=settings.MASTER_PASSWORD_SALT||'',hashHex=settings.MASTER_PASSWORD_HASH||'';
+  var iterations=Number(settings.MASTER_PASSWORD_ITERATIONS);
+  if(!/^[a-f0-9]{32}$/i.test(saltHex)||!/^[a-f0-9]{64}$/i.test(hashHex)||!Number.isSafeInteger(iterations)||iterations<100000)throw new Error('Invalid password configuration');
+  var salt=new Uint8Array(saltHex.match(/.{2}/g).map(function(byte){return parseInt(byte,16)}));
+  var key=await crypto.subtle.importKey('raw',new TextEncoder().encode(input),'PBKDF2',false,['deriveBits']);
+  var bits=await crypto.subtle.deriveBits({name:'PBKDF2',salt:salt,iterations:iterations,hash:'SHA-256'},key,256);
+  var actual=Array.from(new Uint8Array(bits)).map(function(byte){return byte.toString(16).padStart(2,'0')}).join('');
+  return actual===hashHex.toLowerCase();
+}
+auth.addEventListener('submit',async function(event){
   event.preventDefault();
-  if(password.value===MASTER_PASSWORD){
+  var matched=false;
+  try{matched=await passwordMatches(password.value)}catch(error){}
+  if(matched){
     auth.hidden=true;
     document.getElementById('content').hidden=false;
   }else{
